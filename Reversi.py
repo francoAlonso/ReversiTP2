@@ -1,9 +1,6 @@
-import funciones
+import utils
 
-tablero = [
-    ["","","","","","","","","",""] ,
-    ["","","","","","","","","",""]
-]
+tablero = [[],[]]
 
-tablero = funciones.inicializar_tablero(tablero)
-funciones.dibujar_tablero(tablero)
+tablero = utils.inicializar_tablero(tablero)
+utils.dibujar_tablero(tablero)
