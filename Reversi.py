@@ -7,4 +7,6 @@ vectorDireccion = [{'direccionX': 0, 'direccionY':0, 'direccionValida':False, 'f
 
 vectorDireccion = ExternalCode.inicializar_vector_direccion(vectorDireccion)
 tablero = ExternalCode.inicializar_tablero(tablero)
-jugadaBot = ExternalCode.cargar_jugada_bot(tablero, vectorDireccion, jugadaBot, 'N', 'B')
+ExternalCode.dibujar_tablero(tablero)
+casillaValida, vectorDireccion = ExternalCode.verificar_casilla_valida(tablero, vectorDireccion, 'N', 'B', 3, 5)
+print casillaValida
