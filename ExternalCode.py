@@ -65,17 +65,17 @@ def reiniciar_vector_direccion(vectorDireccion):
 def verificar_direccion_valida(tablero, vectorDireccion, i, fichaAliada, fichaEnemiga, posX, posY):
     fichasComidas = 0
 
-    if ( tablero[posX][posY] == ESPACIO_LIBRE and tablero[ posX + vectorDireccion[i]['direccionX'] ][ posY + vectorDireccion[i]['direccionY'] ] == fichaEnemiga ):
+    if tablero[posX][posY] == ESPACIO_LIBRE and tablero[ posX + vectorDireccion[i]['direccionX'] ][ posY + vectorDireccion[i]['direccionY'] ] == fichaEnemiga:
         fichasComidas+=1
         posX += 2*vectorDireccion[i]['direccionX']
         posY += 2*vectorDireccion[i]['direccionY']
 
-        while (tablero[posX][posY] == fichaAliada or tablero[posX][posY] == fichaEnemiga and not vectorDireccion[i]['direccionValida'] ):
-            if( tablero[posX][posY] == fichaEnemiga):
+        while (tablero[posX][posY] == fichaAliada or tablero[posX][posY] == fichaEnemiga) and not vectorDireccion[i]['direccionValida'] :
+            if tablero[posX][posY] == fichaEnemiga:
                 fichasComidas+=1
                 posX += vectorDireccion[i]['direccionX']
                 posY += vectorDireccion[i]['direccionY']
-            elif (tablero[posX][posY] == fichaAliada):
+            elif tablero[posX][posY] == fichaAliada:
                 vectorDireccion[i]['direccionValida'] = True
                 vectorDireccion[i]['fichasADarVuelta'] = fichasComidas
 
@@ -96,11 +96,12 @@ def verificar_casilla_valida(tablero, vectorDireccion, fichaAliada, fichaEnemiga
 def se_puede_jugar(tablero, vectorDireccion, fichaAliada, fichaEnemiga):
     x=1
     y=1
-    casillaValida, _ = verificar_casilla_valida(tablero, vectorDireccion, fichaAliada, fichaEnemiga, y, x)
+    casillaValida = False
 
     while (x<DIMENSION and not casillaValida):
+        y=1
         while (y<DIMENSION and not casillaValida):
-            casillaValida, _ = verificar_casilla_valida(tablero, vectorDireccion, fichaAliada, fichaEnemiga, y, x)
+            casillaValida, _ = verificar_casilla_valida(tablero, vectorDireccion, fichaAliada, fichaEnemiga, x, y)
             y+=1
         x+=1
 
@@ -130,13 +131,13 @@ def invertir_fichas(tablero, vectorDireccion, fichaAliada, fichaEnemiga, posX, p
 
 #la funcion que le permite ingresar al usuario la ficha. Se la pedira hasta que ingrese una casilla valida.
 def ingresar_ficha(tablero, vectorDireccion, fichaAliada, fichaEnemiga ):
-    casillero = input("Ingrese dos valoes de 1 a 8 representando las posiciones X e Y: ")
+    casillero = raw_input('Ingrese dos valoes de 1 a 8 representando las posiciones X e Y: ')
     posX = int(casillero[0])
     posY = int(casillero[1])
     casillaValida, vectorDireccion = verificar_casilla_valida(tablero, vectorDireccion, fichaAliada, fichaEnemiga, posX, posY)
 
     while ( posX<1 or posX>=DIMENSION or posY<1 or posY>=DIMENSION or not casillaValida):
-        casillero = input('Posicion no valida, intentelo nuevamente: ')
+        casillero = raw_input('Posicion no valida, intentelo nuevamente: ')
         posX = int(casillero[0])
         posY = int(casillero[1])
         casillaValida, vectorDireccion = verificar_casilla_valida(tablero, vectorDireccion, fichaAliada, fichaEnemiga, posX, posY)
