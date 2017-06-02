@@ -15,10 +15,10 @@ def inicializar_tablero(tablero):
             else:
                 tablero[i][n] = ESPACIO_LIBRE
 
-    tablero[ (DIMENSION-1)/2 ][ (DIMENSION-1)/2 ] = FICHA_NEGRA
-    tablero[ (DIMENSION-1)/2 ][ (1+DIMENSION)/2 ] = FICHA_BLANCA
-    tablero[ (1+DIMENSION)/2 ][ (DIMENSION-1)/2 ] = FICHA_BLANCA
-    tablero[ (1+DIMENSION)/2 ][ (1+DIMENSION)/2 ] = FICHA_NEGRA
+    tablero[ int((DIMENSION-1)/2) ][ int((DIMENSION-1)/2) ] = FICHA_NEGRA
+    tablero[ int((DIMENSION-1)/2) ][ int((1+DIMENSION)/2) ] = FICHA_BLANCA
+    tablero[ int((1+DIMENSION)/2) ][ int((DIMENSION-1)/2) ] = FICHA_BLANCA
+    tablero[ int((1+DIMENSION)/2) ][ int((1+DIMENSION)/2) ] = FICHA_NEGRA
 
     return tablero
 
