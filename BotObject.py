@@ -8,8 +8,8 @@ class Bot(object):
 
     #esta funcion reiniciara la posicion que tiene mayor cantidad de fichas para comer
     def reiniciarBot(self):
-        for posX in range(Constante.DIMENSION):
-            for posY in range(Constante.DIMENSION):
+        for posX in range(Constante.DIMENSION_TABLERO):
+            for posY in range(Constante.DIMENSION_TABLERO):
                 self.jugadaBot[posX][posY]['posicionX'] = 0
                 self.jugadaBot[posX][posY]['posicionY'] = 0
                 self.jugadaBot[posX][posY]['fichas'] = 0
@@ -17,8 +17,8 @@ class Bot(object):
 
     # relleno la lista del bot diciendole donde puede comer y cuantas.
     def __cargarJugadaBot(self, tablero, fichaAliada, fichaEnemiga):
-        for posX in range(Constante.DIMENSION):
-            for posY in range(1, Constante.DIMENSION):
+        for posX in range(Constante.DIMENSION_TABLERO):
+            for posY in range(1, Constante.DIMENSION_TABLERO):
                 if (tablero.verificarCasillaValida(fichaAliada, fichaEnemiga, posX, posY)):
                     self.jugadaBot[posX][posY]['posicionX'] = posX
                     self.jugadaBot[posX][posY]['posicionY'] = posY
@@ -33,8 +33,8 @@ class Bot(object):
         self.gloton['posicionY'] = 0
         self.gloton['fichas'] = 0
 
-        for posX in range(Constante.DIMENSION):
-            for posY in range(Constante.DIMENSION):
+        for posX in range(Constante.DIMENSION_TABLERO):
+            for posY in range(Constante.DIMENSION_TABLERO):
                 if self.jugadaBot[posX][posY]['fichas'] > self.gloton['fichas']:
                     self.gloton['posicionX'] = self.jugadaBot[posX][posY]['posicionX']#recordar que esta invertido el tablero
                     self.gloton['posicionY'] = self.jugadaBot[posX][posY]['posicionY']

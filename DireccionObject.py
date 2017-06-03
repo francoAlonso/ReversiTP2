@@ -2,9 +2,9 @@ import Constante
 
 class VectorDireccion(object):
 
-    # estando ya definido los campos 'fichasADarVuelta' y 'direccionValida' en la creacion de la lista, tengo que indicarle hacia donde se dirige la direccion
-    def __init__(self, vectorDireccion):
-        self.vectorDireccion = vectorDireccion
+    #constructor. Defino las direciones donde se va a poder comer.
+    def __init__(self):
+        self.vectorDireccion = [{'direccionX': 0, 'direccionY':0, 'direccionValida':False, 'fichasADarVuelta':0} for e in range(Constante.CANTIDAD_DIRECCIONES)]
 
         self.vectorDireccion[0]['direccionX'] = 0  # derecha
         self.vectorDireccion[0]['direccionY'] = 1
@@ -29,5 +29,17 @@ class VectorDireccion(object):
             self.vectorDireccion[i]['direccionValida'] = False
             self.vectorDireccion[i]['fichasADarVuelta'] = 0
 
-    def __getitem__(self, item):
-        return self.vectorDireccion[item]
+    def setDireccionValida(self, posicion, valor):
+        self.vectorDireccion[posicion]['direccionValida'] = valor
+
+    def setFichasADarVuelta(self, posicion, valor):
+        self.vectorDireccion[posicion]['fichasADarVuelta'] = valor
+
+    def getHorientacion(self, posicion, horientacion):
+        return self.vectorDireccion[posicion][horientacion]
+
+    def getDireccionValida(self, posicion):
+        return self.vectorDireccion[posicion]['direccionValida']
+
+    def getFichasADarVuelta(self, posicion):
+        return self.vectorDireccion[posicion]['fichasADarVuelta']
