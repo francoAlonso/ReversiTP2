@@ -1,13 +1,16 @@
 import Constante
 from DireccionObject import VectorDireccion
-from BotObject import Bot
+
 
 class Tablero(object):
+
+    contadorTurnos = 0
+    juegoTerminado = False
+
     # constructor, inicializo el tablero con todas sus fichas
-    def __init__(self, tablero, cargaVectorDireccion, jugadaBot):
+    def __init__(self, tablero, cargaVectorDireccion):
         self.tablero = tablero
         self.vectorDireccion = VectorDireccion(cargaVectorDireccion)
-        self.jugadaBot = Bot(jugadaBot)
 
         for i in range(Constante.DIMENSION + 1):
             for n in range(Constante.DIMENSION + 1):
@@ -40,7 +43,7 @@ class Tablero(object):
 
 
     # verifica en una unica direccion si es valida. Devuelve un true si lo es.
-    def __verificarDireccionValida(self, i, fichaAliada, fichaEnemiga, posX, posY):
+    def __verificarDireccionValida(self, fichaAliada, fichaEnemiga, i, posX, posY):
         fichasComidas = 0
 
         if self.tablero[posX][posY] == Constante.ESPACIO_LIBRE and self.tablero[ posX + self.vectorDireccion[i]['direccionX'] ] [posY + self.vectorDireccion[i]['direccionY'] ] == fichaEnemiga:
@@ -51,9 +54,9 @@ class Tablero(object):
             while (self.tablero[posX][posY] == fichaAliada or self.tablero[posX][posY] == fichaEnemiga) and not self.vectorDireccion[i]['direccionValida']:
                 if self.tablero[posX][posY] == fichaEnemiga:
                     fichasComidas += 1
-                    posX += self.vectorDireccion.__getitem__(i)['direccionX']
-                    posY += self.vectorDireccion.__getitem__(i)['direccionY']
-                elif self.tablero[posX][posY] == fichaAliada:
+                    posX += self.vectorDireccion[i]['direccionX']
+                    posY += self.vectorDireccion[i]['direccionY']
+                else:
                     self.vectorDireccion[i]['direccionValida'] = True
                     self.vectorDireccion[i]['fichasADarVuelta'] = fichasComidas
 
@@ -86,6 +89,21 @@ class Tablero(object):
 
         return casillaValida
 
+    #llamando a sePuedeJugar, verifica que ambos jugadores juegen. Si ambos no pueden jugar, se termina el juego
+    def continuarJuego(self, fichaAliada, fichaEnemiga):
+        resultado = False
+
+        if self.sePuedeJugar(fichaAliada, fichaEnemiga):
+            Tablero.contadorTurnos += 1
+            resultado = False
+        else:
+            Tablero.contadorTurnos = 0
+            resultado = True
+
+        if Tablero.contadorTurnos == 2:
+            Tablero.juegoTerminado = True
+
+        return resultado
 
     # El encargado de invertir las fichas del opoenente pero en una unica direccion
     def __invertirFila(self, i, fichaAliada, fichaEnemiga, posX, posY):
@@ -102,7 +120,7 @@ class Tablero(object):
     def __invertirFichas(self, fichaAliada, fichaEnemiga, posX, posY):
         self.tablero[posX][posY] = fichaAliada
 
-        for i in range(Constante.DIMENSION):
+        for i in range(Constante.CANTIDAD_DIRECCIONES):
             if (self.vectorDireccion[i]['direccionValida']):
                 self.__invertirFila(i, fichaAliada, fichaEnemiga, posX, posY)
 
@@ -110,23 +128,41 @@ class Tablero(object):
     # la funcion que le permite ingresar al usuario la ficha. Se la pedira hasta que ingrese una casilla valida.
     def ingresarFicha(self, fichaAliada, fichaEnemiga):
         casillero = raw_input('Ingrese dos valoes de 1 a 8 representando las posiciones X e Y: ')
-        posX = int(casillero[0])
-        posY = int(casillero[1])
+        posX = int(casillero[1])#recordar que el x e y en el tablero esta invertido
+        posY = int(casillero[0])
 
         while (posX < 1 or posX >= Constante.DIMENSION or posY < 1 or posY >= Constante.DIMENSION or not self.verificarCasillaValida(fichaAliada, fichaEnemiga, posX, posY)):
             casillero = raw_input('Posicion no valida, intentelo nuevamente: ')
-            posX = int(casillero[0])
-            posY = int(casillero[1])
+            posX = int(casillero[1])
+            posY = int(casillero[0])
 
         self.__invertirFichas(fichaAliada, fichaEnemiga, posX, posY)
 
+    #cuenta las fichas del tablero y devuelve la diferencia de fichas ente jugador y bot.
+    def contarFichas(self, fichaJugador, fichaBot):
+        cantidadFichasJugador = 0
+        cantidadFichasBot = 0
 
-    # relleno la lista del bot diciendole donde puede comer y cuantas.
-    def cargarJugadaBot(self, fichaAliada, fichaEnemiga):
-        for posX in range(1, Constante.DIMENSION):
-            for posY in range(1, Constante.DIMENSION):
-                if (self.verificarCasillaValida(fichaAliada, fichaEnemiga, posX, posY)):
-                    self.jugadaBot[posX][posY]['posicionX'] = posX
-                    self.jugadaBot[posX][posY]['posicionY'] = posY
-                    for k in range(Constante.CANTIDAD_DIRECCIONES):
-                        self.jugadaBot[posX][posY]['fichas'] += self.vectorDireccion[k]['fichasADarVuelta']
+        for posX in range(Constante.DIMENSION):
+            for posY in range(Constante.DIMENSION):
+                if self.tablero[posX][posY] == fichaJugador:
+                    cantidadFichasJugador+=1
+                elif self.tablero[posX][posY] == fichaBot:
+                    cantidadFichasBot+=1
+
+        return cantidadFichasJugador-cantidadFichasBot
+
+    #le da al jugador la oportunidad de elegir que ficha quere ser
+    def elegirColorFicha(self):
+        fichaEnemiga = ''
+        fichaAliada = ''
+
+        while (fichaAliada != Constante.FICHA_BLANCA and fichaAliada != Constante.FICHA_NEGRA):
+            fichaAliada = raw_input('Ingrese una Color entre N o B: ').upper()
+
+        if fichaAliada == Constante.FICHA_NEGRA:
+            fichaEnemiga = Constante.FICHA_BLANCA
+        else:
+            fichaEnemiga = Constante.FICHA_NEGRA
+
+        return fichaAliada, fichaEnemiga
