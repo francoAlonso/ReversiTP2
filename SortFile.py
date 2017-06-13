@@ -1,4 +1,4 @@
-#Debe haber una lista facia creada anteriormente, la llamamos listaUsuarios
+#Debe haber una lista vacia creada anteriormente, la llamamos listaUsuarios
 def crearLista (file,listName): #Pasa los datos de Usuarios.csv a una lista para luego ser ordenados
 	import csv
 	with open (file, 'rb') as l:

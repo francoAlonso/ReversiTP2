@@ -35,7 +35,7 @@ class VectorDireccion(object):
     def setFichasADarVuelta(self, posicion, valor):
         self.vectorDireccion[posicion]['fichasADarVuelta'] = valor
 
-    def getHorientacion(self, posicion, horientacion):
+    def getOrientacion(self, posicion, horientacion):
         return self.vectorDireccion[posicion][horientacion]
 
     def getDireccionValida(self, posicion):

@@ -43,22 +43,22 @@ class Tablero(object):
 
 
     # verifica en una unica direccion si es valida. Devuelve un true si lo es.
-    def __verificarDireccionValida(self, fichaAliada, fichaEnemiga, i, posX, posY):
+    def __verificarDireccionValida(self, i, fichaAliada, fichaEnemiga, posX, posY):
         fichasComidas = 0
 
-        if self.matrizTablero[posX][posY] == Constante.ESPACIO_LIBRE and self.matrizTablero[ posX + self.direccion.getHorientacion(i, 'direccionX')][ posY + self.direccion.getHorientacion(i, 'direccionY')] == fichaEnemiga:
+        if self.matrizTablero[posX][posY] == Constante.ESPACIO_LIBRE and self.matrizTablero[ posX + self.direccion.getOrientacion(i, 'direccionX')][ posY + self.direccion.getOrientacion(i, 'direccionY')] == fichaEnemiga:
             fichasComidas += 1
-            posX += 2 * self.direccion.getHorientacion(i, 'direccionX')
-            posY += 2 * self.direccion.getHorientacion(i, 'direccionY')
+            posX += 2 * self.direccion.getOrientacion(i, 'direccionX')
+            posY += 2 * self.direccion.getOrientacion(i, 'direccionY')
 
-            while (self.matrizTablero[posX][posY] == fichaAliada or self.matrizTablero[posX][posY] == fichaEnemiga) and not self.direccion.getDireccionValida(i):
+            while (self.matrizTablero[posX][posY] == fichaAliada or self.matrizTablero[posX][posY] == fichaEnemiga) and not self.direccion.getDireccionValida(i) :
                 if self.matrizTablero[posX][posY] == fichaEnemiga:
                     fichasComidas += 1
-                    posX += self.direccion.getHorientacion(i, 'direccionX')
-                    posY += self.direccion.getHorientacion(i, 'direccionY')
+                    posX += self.direccion.getOrientacion(i, 'direccionX')
+                    posY += self.direccion.getOrientacion(i, 'direccionY')
                 else:
                     self.direccion.setDireccionValida(i, True)
-                    self.direccion.setFichasADarVuelta(fichasComidas)
+                    self.direccion.setFichasADarVuelta(i, fichasComidas)
 
         return self.direccion.getDireccionValida(i)
 
@@ -68,7 +68,7 @@ class Tablero(object):
         casillaValida = False
 
         for i in range(Constante.CANTIDAD_DIRECCIONES):
-            if (self.__verificarDireccionValida(i, fichaAliada, fichaEnemiga, posX,posY)):
+            if (self.__verificarDireccionValida(i, fichaAliada, fichaEnemiga, posX, posY) ):
                 casillaValida = True
 
         return casillaValida
@@ -77,23 +77,22 @@ class Tablero(object):
     # verifica que ambos jugadores tengan la oportunidad de jugar, en caso contrario, saltea su turno
     def sePuedeJugar(self, fichaAliada, fichaEnemiga):
         x = 1
-        y = 1
-        casillaValida = False
+        sePuedeJugar = False
 
-        while (x < Constante.DIMENSION_TABLERO and not casillaValida):
+        while (x < Constante.DIMENSION_TABLERO and not sePuedeJugar):
             y = 1
-            while (y < Constante.DIMENSION_TABLERO and not casillaValida):
-                casillaValida = self.verificarCasillaValida(fichaAliada, fichaEnemiga, x, y)
+            while (y < Constante.DIMENSION_TABLERO and not sePuedeJugar):
+                sePuedeJugar = self.verificarCasillaValida(fichaAliada, fichaEnemiga, x, y)
                 y += 1
             x += 1
 
-        return casillaValida
+        return sePuedeJugar
 
     #llamando a sePuedeJugar, verifica que ambos jugadores juegen. Si ambos no pueden jugar, se termina el juego
     def continuarJuego(self, fichaAliada, fichaEnemiga):
         resultado = False
 
-        if self.sePuedeJugar(fichaAliada, fichaEnemiga):
+        if not self.sePuedeJugar(fichaAliada, fichaEnemiga):
             Tablero.contadorTurnos += 1
             resultado = False
         else:
@@ -107,17 +106,17 @@ class Tablero(object):
 
     # El encargado de invertir las fichas del opoenente pero en una unica direccion
     def __invertirFila(self, i, fichaAliada, fichaEnemiga, posX, posY):
-        posX += self.direccion.getHorientacion(i, 'direccionX')
-        posY += self.direccion.getHorientacion(i, 'direccionY')
+        posX += self.direccion.getOrientacion(i, 'direccionX')
+        posY += self.direccion.getOrientacion(i, 'direccionY')
 
         while (self.matrizTablero[posX][posY] == fichaEnemiga):
             self.matrizTablero[posX][posY] = fichaAliada
-            posX += self.direccion.getHorientacion(i, 'direccionX')
-            posY += self.direccion.getHorientacion(i, 'direccionY')
+            posX += self.direccion.getOrientacion(i, 'direccionX')
+            posY += self.direccion.getOrientacion(i, 'direccionY')
 
 
     # si o si siendo una casilla valida, dara vuelta toda ficha del oponente en la direccion valida.
-    def __invertirFichas(self, fichaAliada, fichaEnemiga, posX, posY):
+    def invertirFichas(self, fichaAliada, fichaEnemiga, posX, posY):
         self.matrizTablero[posX][posY] = fichaAliada
 
         for i in range(Constante.CANTIDAD_DIRECCIONES):
@@ -131,12 +130,13 @@ class Tablero(object):
         posX = int(casillero[1])#recordar que el x e y en el tablero esta invertido
         posY = int(casillero[0])
 
-        while (posX < 1 or posX >= Constante.DIMENSION_TABLERO or posY < 1 or posY >= Constante.DIMENSION_TABLERO or not self.verificarCasillaValida(fichaAliada, fichaEnemiga, posX, posY)):
+        while( posX < 1 or posX >= Constante.DIMENSION_TABLERO or posY < 1 or posY >= Constante.DIMENSION_TABLERO and (not self.verificarCasillaValida(fichaAliada, fichaEnemiga, posX, posY)) ):
             casillero = raw_input('Posicion no valida, intentelo nuevamente: ')
             posX = int(casillero[1])
             posY = int(casillero[0])
 
-        self.__invertirFichas(fichaAliada, fichaEnemiga, posX, posY)
+        self.invertirFichas(fichaAliada, fichaEnemiga, posX, posY)
+
 
     #cuenta las fichas del tablero y devuelve la diferencia de fichas ente jugador y bot.
     def contarFichas(self, fichaJugador, fichaBot):
@@ -166,3 +166,11 @@ class Tablero(object):
             fichaEnemiga = Constante.FICHA_NEGRA
 
         return fichaAliada, fichaEnemiga
+
+
+    def getFichasADarVuelta(self, posicion):
+        return self.direccion.getFichasADarVuelta(posicion)
+
+    #esta funcion me permite dar el efecto de borrar la pantalla
+    def borrarPantalla(self):
+        print '\n' * 50
