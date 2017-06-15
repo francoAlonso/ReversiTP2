@@ -28,6 +28,13 @@ def usuariosAleatorios():
 			
 #Visualizar todos los usuarios con sus respectivos valores (mostrado alfabeticamente)
 def visualizar():
+	for i in range(0,(len(lista)-1)):
+		if lista[j]['Nombre']==lst[0]:
+			aux=lista[j-1]
+			lista[j-1]=lista[j]
+			lista[j]=aux
+		j=j+1
+return lista
         
 
 	
