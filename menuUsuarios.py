@@ -22,7 +22,7 @@ def usuariosAleatorios():
 			nombre_aleatorio=''.join(nombre_aleatorio)
 			puntaje, PJ, PG, PP, PE=random.randrange(10), random.randrange(10), random.randrange(10),random.randrange(10),random.randrange(10)
 			usuarios.seek(0,2)
-			grabarUsuario(usuarios, nombre_aleatorio, puntaje, PJ, PG, PP, PE)
+			grabarUsuario(usuarios, nombre_aleatorio, puntaje, PJ, PG, PP, PE,'')
 	
 
 #"main"
