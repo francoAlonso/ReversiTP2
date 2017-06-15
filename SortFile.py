@@ -1,28 +1,34 @@
-#Debe haber una lista vacia creada anteriormente, la llamamos listaUsuarios
-def crearLista (file,listName): #Pasa los datos de Usuarios.csv a una lista para luego ser ordenados
+#Debe haber una lista facia creada anteriormente, la llamamos listaUsuarios
+def crearLista (file): #Pasa los datos de Usuarios.csv a una lista para luego ser ordenados
 	import csv
 	with open(file,'r') as my_file:
-	reader = csv.reader(my_file, delimiter='\t')
-	listName=list(reader)
+		reader = csv.reader(my_file, skipinitialspace=True)
+		header=next(reader)
+		lista=[dict(zip(header,map(str,row))) for row in reader]
+		return lista
 
-def ordenarLista (lista): #Se le pasa la lista creada anteriormente
-	lista.sort(key=lambda datos:datos[1], reverse=True) #ordena por puntaje de mayor a menor
+def ordenarLista (listaInicial): #Se le pasa la lista creada anteriormente........HAY QUE HACER SPLIT PARA QUE PUEDA ORDENAR. VER ESTO
+	lista=sorted(listaInicial, key=lambda k:int(k['Puntaje']), reverse=True)#ordena por puntaje de mayor a menor
+	j=1
 	for i, line in enumerate(lista):
-		if  lista[i][1]==lista[i+1][1]: #Si en el registro de un jugador el puntaje es igual al del siguiente
-			if lista[i][2]<lista[i+1][2]: #Si el PG del segundo es mas grande que el del primero los cambia de lugar
-				aux=lista[i]
-				lista[i]=lista[i+1]
-				lista[i+1]=aux
-			if lista[i][2]==lista[i+1][2]: #Si sus PG son iguales, ingresa los nombres en una lista pequena y los ordena alfabeticamente
-				lst=[lista[i][0],lista[i+1][0]]
+		if  lista[j-1]['Puntaje']==lista[j]['Puntaje']: #Si en el registro de un jugador el puntaje es igual al del siguiente
+			if int(lista[j-1]['PartGanados'])<int(lista[j]['PartGanados']): #Si el PG del segundo es mas grande que el del primero los cambia de lugar
+				aux=lista[j-1]	
+				lista[j-1]=lista[j]
+				lista[j]=aux
+			if int(lista[j-1]['PartGanados'])==int(lista[j]['PartGanados']): #Si sus PG son iguales, ingresa los nombres en una lista pequena y los ordena alfabeticamente
+				lst=[lista[j-1]['Nombre'],lista[j]['Nombre']]
 				lst.sort()
-				if lista[i+1][0]==lst[0]: #Si el primer nombre de la lst es igual al siguiente de la lista usuarios, cambia de lugar
-					aux=lista[i+1]
-					lista[i]=lista[i+1]
-					lista[i+1]=aux
-		
+				print lst
+				if lista[j]['Nombre']==lst[0]: #Si el primer nombre de la lst es igual al siguiente de la lista usuarios, cambia de lugar
+					aux=lista[j-1]
+					lista[j-1]=lista[j]
+					lista[j]=aux
+		j=+1
+	return lista
 
 def imprimirLista(lista):
+	j=1
 	for i, line in enumerate(lista):
-		print lista[i]	
-				
+		print 'Puesto {}: {} con {} puntos y {} partidos ganados'.format(j,lista[i]['Nombre'],lista[i]['Puntaje'],lista[i]['PartGanados'])
+		j=j+1
