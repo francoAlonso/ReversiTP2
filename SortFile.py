@@ -31,3 +31,4 @@ def imprimirLista(lista):
 	for i, line in enumerate(lista):
 		print 'Puesto {}: {} con {} puntos y {} partidos ganados'.format(j,lista[i]['Nombre'],lista[i]['Puntaje'],lista[i]['PartGanados'])
 		j=j+1
+		
