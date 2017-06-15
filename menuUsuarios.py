@@ -7,13 +7,9 @@ def accionARealizar():
 	return ingreso
 
 #Resetea el archivo borrando todos los usuarios
-def resetear():
-    if ingreso=RESETEAR:
-	usuarios=open('usuarios.csv', 'w')
-	leer(usuarios, 'NONE,0,0,0,0,0,0')
-        while linea in usuarios:
-            usuarios.remove(linea)
-            leer(usuarios, 'NONE,0,0,0,0,0,0')
+def resetearArchUsuarios(file):#Se le pasa Usuarios.csv, Crea nuevamente el archivo usuarios con las keys correspondientes
+	open (file,'w')
+	file.write('Nombre,Puntaje,PartGanados,PartPerdidos,PartEmpatados,PartJugados')
 
 #Genera la cantidad de usuarios aleatorios que el usuario desee
 def usuariosAleatorios():
@@ -26,18 +22,22 @@ def usuariosAleatorios():
 			usuarios.seek(0,2)
 			grabarUsuario(usuarios, nombre_aleatorio, puntaje, PJ, PG, PP, PE,'')
 			
+def crearLista (file): #Pasa los datos de Usuarios.csv a una lista para luego ser ordenados
+	import csv
+	with open(file,'r') as my_file:
+		reader = csv.reader(my_file, skipinitialspace=True)
+		header=next(reader)
+		lista=[dict(zip(header,map(str,row))) for row in reader]
+		return lista
+			
 #Visualizar todos los usuarios con sus respectivos valores (mostrado alfabeticamente)
-def visualizar():
-	for i in range(0,(len(lista)-1)):
-		if lista[j]['Nombre']==lst[0]:
-			aux=lista[j-1]
-			lista[j-1]=lista[j]
-			lista[j]=aux
-		j=j+1
-return lista
-        
-
+def visualizar(file,lista):
+	listaUsu=crearLista(file)
+	listaUsuOrdenada=sorted(listaUsu, key=lambda k:k['Nombre'])
+	for i in range (0,len(listaUsuOrdenada)):
+		print listaUsuOrdenada[i],'\n'
 	
+
 
 #"main"
 ingreso=accionARealizar()
