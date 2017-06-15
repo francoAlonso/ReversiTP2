@@ -7,7 +7,7 @@ def crearLista (file): #Pasa los datos de Usuarios.csv a una lista para luego se
 		lista=[dict(zip(header,map(str,row))) for row in reader]
 		return lista
 
-def ordenarLista (listaInicial): #Se le pasa la lista creada anteriormente........HAY QUE HACER SPLIT PARA QUE PUEDA ORDENAR. VER ESTO
+def ordenarLista (listaInicial): #Se le pasa la lista creada anteriormente
 	lista=sorted(listaInicial, key=lambda k:int(k['Puntaje']), reverse=True)#ordena por puntaje de mayor a menor
 	j=1
 	for i in range(0,(len(lista)-1)):
