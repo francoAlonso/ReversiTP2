@@ -28,7 +28,7 @@ def ordenarLista (listaInicial): #Se le pasa la lista creada anteriormente
 
 def imprimirLista(lista):
 	j=1
-	for i, line in enumerate(lista):
+	for i in range(0,9):
 		print 'Puesto {}: {} con {} puntos y {} partidos ganados'.format(j,lista[i]['Nombre'],lista[i]['Puntaje'],lista[i]['PartGanados'])
 		j=j+1
 		
