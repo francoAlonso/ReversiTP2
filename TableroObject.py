@@ -27,18 +27,22 @@ class Tablero(object):
         self.matrizTablero[int((1 + Constante.DIMENSION_TABLERO) / 2)][int((1 + Constante.DIMENSION_TABLERO) / 2)] = Constante.FICHA_NEGRA
 
 
-    #dibujo el tablero
-    def dibujar_tablero(self):
-        for i in range(Constante.DIMENSION_TABLERO + 1):
+
+    # dibujo el tablero pero previamente borro lo anterior. Tambien esta funcion va a reiniciar el  vector direccion para que sea reutilizable
+    def reiniciar(self):
+        self.borrarPantalla()
+
+        for i in range(Constante.DIMENSION_TABLERO + 1):#dibujo el tablero
             for n in range(Constante.DIMENSION_TABLERO + 1):
                 print self.matrizTablero[i][n], ' ',
 
             print
             print
 
+        self.resetearVectorDireccion()
 
-    # este reinicia el vector direccion para que sea reutilizable
-    def reiniciarVectorDireccion(self):
+    #reinicia el vector direccion para que sea reutilizable
+    def resetearVectorDireccion(self):
         self.direccion.reiniciarVectorDireccion()
 
 
@@ -68,7 +72,7 @@ class Tablero(object):
         casillaValida = False
 
         for i in range(Constante.CANTIDAD_DIRECCIONES):
-            if (self.__verificarDireccionValida(i, fichaAliada, fichaEnemiga, posX, posY) ):
+            if self.__verificarDireccionValida(i, fichaAliada, fichaEnemiga, posX, posY):
                 casillaValida = True
 
         return casillaValida
@@ -124,16 +128,25 @@ class Tablero(object):
                 self.__invertirFila(i, fichaAliada, fichaEnemiga, posX, posY)
 
 
+    # esta funcion devuelve la posicion ingresada por el usuario. Verifica que solo sean numeros
+    def verificarNumeros(self):
+        while True:
+            try:  # los try and catch me van a negar el ingreso de letras.
+                casillero = raw_input('Ingrese dos valoes de 1 a 8 representando las posiciones X e Y: ')
+                posX = int(casillero[1])  # recordar que el x e y en el tablero esta invertido
+                posY = int(casillero[0])
+                break
+            except:
+                print "Ingrese solo numeros"
+
+        return posX, posY
+
     # la funcion que le permite ingresar al usuario la ficha. Se la pedira hasta que ingrese una casilla valida.
     def ingresarFicha(self, fichaAliada, fichaEnemiga):
-        casillero = raw_input('Ingrese dos valoes de 1 a 8 representando las posiciones X e Y: ')
-        posX = int(casillero[1])#recordar que el x e y en el tablero esta invertido
-        posY = int(casillero[0])
+        posX, posY = self.verificarNumeros()
 
-        while( posX < 1 or posX >= Constante.DIMENSION_TABLERO or posY < 1 or posY >= Constante.DIMENSION_TABLERO and (not self.verificarCasillaValida(fichaAliada, fichaEnemiga, posX, posY)) ):
-            casillero = raw_input('Posicion no valida, intentelo nuevamente: ')
-            posX = int(casillero[1])
-            posY = int(casillero[0])
+        while not self.verificarCasillaValida(fichaAliada, fichaEnemiga, posX, posY):
+            posX, posY = self.verificarNumeros()
 
         self.invertirFichas(fichaAliada, fichaEnemiga, posX, posY)
 

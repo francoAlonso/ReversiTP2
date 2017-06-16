@@ -48,6 +48,4 @@ class Bot(object):
         self.__botGloton()
         tablero.invertirFichas(fichaAliada, fichaEnemiga, self.gloton['posicionX'], self.gloton['posicionY'])
 
-        tablero.borrarPantalla()
-        tablero.dibujar_tablero()
-        print 'Jugada del bot:', self.gloton['posicionY'], self.gloton['posicionX']#el tablero esta invertido
+        return self.gloton['posicionY'], self.gloton['posicionX']#el tablero esta invertido
