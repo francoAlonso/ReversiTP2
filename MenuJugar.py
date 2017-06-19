@@ -20,6 +20,16 @@ def contarLineas(file):
 		row_count=len(data)
 	return row_count
 
+#Ingresa el nombre de usuario
+def ingresarNombre():
+    nombre_usuario=raw_input('Ingrese el nombre de usuario: ')
+    return (nombre_usuario)
+#Verifica que el nombre ingresado se encuentre en 4 y 8 digitos
+def verificarNombreValido():
+    global nombre_usuario
+    while len(nombre_usuario)<4 or len(nombre_usuario)>8:
+            nombre_usuario=raw_input('Ingrese un nombre entre 4 y 8 digitos: ')
+
 #Es usado cuando aparece un nuevo jugador, si este ya existe no hace nada, si no, crea el nuevo jugador con los datos default(0)
 #Como solo usamos el nombre, ponemos variables random para que pueda leer el archivo correctamente
 def verificarUsuarioInicial(file,nombre):
