@@ -1,16 +1,16 @@
 #El archivo Usuarios.csv tiene 6 datos, los cuales se encuentran en este orden: Nombre,Puntaje,PJ,PG,PP,PE
 #Esta funcion lee el archivo y si encuentra al final, devuelte una clave que indica el EoF
-def leer (archivo,default):
+def leer (archivo, default):
     linea = archivo.readline()
     if linea:
-    	return linea.split(',')
-    else:
-    	return default.split(',')
+		return linea.split(',')
+	else:
+		return default.split(',')
 
 #Lo unico que hace es grabar en Usuarios.csv los datos que queramos
 #El 'espacio' solo es usado cuando se crea un jugador nuevo, para agregar el \n
 def grabarUsuario(file,nombre,puntaje,PJ,PG,PP,PE,espacio):
-	archivo.write(nombre+','+puntaje+','+PJ+','+PG+','+PP+','+PE+espacio)
+	file.write(nombre+','+puntaje+','+PJ+','+PG+','+PP+','+PE+espacio)
 
 def contarLineas(file):
 	import csv
@@ -22,13 +22,13 @@ def contarLineas(file):
 
 #Ingresa el nombre de usuario
 def ingresarNombre():
-    nombre_usuario=raw_input('Ingrese el nombre de usuario: ')
-    return (nombre_usuario)
+	nombre_usuario=raw_input('Ingrese el nombre de usuario: ')
+	return (nombre_usuario)
 #Verifica que el nombre ingresado se encuentre en 4 y 8 digitos
 def verificarNombreValido():
-    global nombre_usuario
-    while len(nombre_usuario)<4 or len(nombre_usuario)>8:
-            nombre_usuario=raw_input('Ingrese un nombre entre 4 y 8 digitos: ')
+	global nombre_usuario
+	while len(nombre_usuario)<4 or len(nombre_usuario)>8:
+		nombre_usuario=raw_input('Ingrese un nombre entre 4 y 8 digitos: ')
 
 #Es usado cuando aparece un nuevo jugador, si este ya existe no hace nada, si no, crea el nuevo jugador con los datos default(0)
 #Como solo usamos el nombre, ponemos variables random para que pueda leer el archivo correctamente
@@ -50,7 +50,7 @@ def verificarUsuarioInicial(file,nombre):
 		grabarUsuario(file,nombre,'0','0','0','0','0','\n')
 
 #Actualiza datos en el Usuarios.csv luego de que termina una partida
-def actualizarUsuarios(file,nombre,fichasJugaor,fichasBot):
+def actualizarUsuarios(file, nombre, nuevoPuntaje):
 	last_pos=file.tell()
 	nombre_usuario,puntaje,PJ,PG,PP,PE=leer(file, 'END,0,0,0,0,0')
 	#Pasamos los valores que necesitamos que sean numeros a numerico
@@ -60,10 +60,10 @@ def actualizarUsuarios(file,nombre,fichasJugaor,fichasBot):
 	intPP=int(PP)
 	intPE=int(PE)
 	intPJ+=1
-	intPuntaje=intPuntaje+(fichasJugador-fichasBot)
-	if fichasJugador<fichasBot:
+	intPuntaje=intPuntaje+(nuevoPuntaje)
+	if nuevoPuntaje < 0:
 		intPP+=1
-	elif fichasJugador>fichasBot:
+	elif nuevoPuntaje > 0:
 		intPG+=1
 	else:
 		intPP=+1

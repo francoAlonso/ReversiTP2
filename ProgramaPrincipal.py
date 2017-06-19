@@ -5,6 +5,7 @@ os.chdir()#Aca se pone desde donde se van a leer los archivos, para que no sea t
 import MenuJugar
 import SortFile
 import menuUsuarios
+import Reversi
 menu1=['1-Jugar','2-Ver Top 10','3-Cargar,generar o actualizar archivo Usuarios','0-Salir']
 menu2=['1-Reset archivo Usuarios','2-Cargar nuevo arhivo Usuarios','3-Actualizar archivo Usuarios','4-Generar Usuarios aleatorio','5-Visualizar archivo Usuarios actual','0-Volver al Menu Principal']
 i=1
@@ -17,7 +18,8 @@ while i!=0:
         varParaNombre=MenuJugar.ingresarNombre()#Habria que hacer que verifique e ingrese en uno solo
         MenuJugar.verificarUsuarioInicial('Usuarios.csv',varParaNombre)
         #ACA VA EL JUEGO
-        MenuJugar.actualizarUsuarios('Usuarios.csv',varParaNombre,fichasJugaor,fichasBot)
+        puntaje = Reversi.jugar_reversi()
+        MenuJugar.actualizarUsuarios('Usuarios.csv', varParaNombre, puntaje)
     elif i==2: #Ordenamiento top 10
         listaParaOrdenar=SortFile.crearLista('Usuarios.csv')
         listaUsuarios=SortFile.ordenarLista(listaParaOrdenar)
@@ -41,8 +43,6 @@ while i!=0:
                 menuUsuarios.usuariosAleatorios('Usuarios.csv')
             elif j==5: #Imprime todos los usuarios ordenados por nombre
                 menuUsuarios.visualizar('Usuarios.csv')
-            elif j==0:
-                #Vuelve al menu principal
             else: #Accion invalida
                 print ('Por favor ingresar un numero valido')
             os.system('cls')
