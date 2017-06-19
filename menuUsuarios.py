@@ -66,15 +66,17 @@ def apareoNovedades(file1,file2):# Se le pasan Usuarios.csv y novUsuarios.csv en
 			grabarUsuario(file1,Nom_n,Puntaje_n,PG_n,PP_n,PE_n,PJ_n,'\n')
 
 #Genera la cantidad de usuarios aleatorios que el usuario desee
-def usuariosAleatorios():
+def usuariosAleatorios(file):
 	import random
+	open (file,'w')
+	file.write('Nombre,Puntaje,PartGanados,PartPerdidos,PartEmpatados,PartJugados\n')
         generados=input('¿Cuántos usuarios de forma aleatoria desea generar?')
         for i in range [1, generados+1]
 			nombre_aleatorio=[random.choice("abcdefghijklmnopqrstuvwxyz") for j in range(4)]
 			nombre_aleatorio=''.join(nombre_aleatorio)
 			puntaje, PJ, PG, PP, PE=random.randrange(10), random.randrange(10), random.randrange(10),random.randrange(10),random.randrange(10)
 			usuarios.seek(0,2)
-			grabarUsuario(usuarios, nombre_aleatorio, puntaje, PJ, PG, PP, PE,'')
+			grabarUsuario(file, nombre_aleatorio, puntaje, PJ, PG, PP, PE,'')
 			
 def crearLista (file): #Pasa los datos de Usuarios.csv a una lista para luego ser ordenados
 	import csv
