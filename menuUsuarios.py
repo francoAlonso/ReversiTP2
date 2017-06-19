@@ -87,7 +87,7 @@ def crearLista (file): #Pasa los datos de Usuarios.csv a una lista para luego se
 		return lista
 			
 #Visualizar todos los usuarios con sus respectivos valores (mostrado alfabeticamente)
-def visualizar(file,lista):
+def visualizar(file):
 	listaUsu=crearLista(file)
 	listaUsuOrdenada=sorted(listaUsu, key=lambda k:k['Nombre'])
 	for i in range (0,len(listaUsuOrdenada)):
