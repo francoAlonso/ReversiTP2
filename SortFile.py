@@ -1,9 +1,10 @@
+import csv
+
 #Debe haber una lista facia creada anteriormente, la llamamos listaUsuarios
 def crearLista (file): #Pasa los datos de Usuarios.csv a una lista para luego ser ordenados
-	import csv
 	with open(file,'r') as my_file:
 		reader = csv.reader(my_file, skipinitialspace=True)
-		header=next(reader)
+		header = next(reader)
 		lista=[dict(zip(header,map(str,row))) for row in reader]
 		return lista
 

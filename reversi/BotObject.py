@@ -3,8 +3,7 @@ import Constante
 class Bot(object):
 
     def __init__(self):
-        self.jugadaBot = [[{'posicionX':0, 'posicionY':0, 'fichas':0} for c in range (Constante.DIMENSION_TABLERO)] for d in range(
-            Constante.DIMENSION_TABLERO)]
+        self.jugadaBot = [[{'posicionX':0, 'posicionY':0, 'fichas':0} for c in range (Constante.DIMENSION_TABLERO)] for d in range(Constante.DIMENSION_TABLERO)]
         self.gloton = {'posicionX':0, 'posicionY':0, 'fichas':0}
 
     #esta funcion reiniciara la posicion que tiene mayor cantidad de fichas para comer
