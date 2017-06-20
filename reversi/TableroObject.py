@@ -21,9 +21,11 @@ class Tablero(object):
                 else:
                     self.matrizTablero[i][n] = Constante.ESPACIO_LIBRE
 
-        self.matrizTablero[int((Constante.DIMENSION_TABLERO - 1) / 2)][int((Constante.DIMENSION_TABLERO - 1) / 2)] = Constante.FICHA_NEGRA
+        self.matrizTablero[int((Constante.DIMENSION_TABLERO - 1) / 2)][int((
+                                                                               Constante.DIMENSION_TABLERO - 1) / 2)] = Constante.FICHA_NEGRA
         self.matrizTablero[int((Constante.DIMENSION_TABLERO - 1) / 2)][int((1 + Constante.DIMENSION_TABLERO) / 2)] = Constante.FICHA_BLANCA
-        self.matrizTablero[int((1 + Constante.DIMENSION_TABLERO) / 2)][int((Constante.DIMENSION_TABLERO - 1) / 2)] = Constante.FICHA_BLANCA
+        self.matrizTablero[int((1 + Constante.DIMENSION_TABLERO) / 2)][int((
+                                                                               Constante.DIMENSION_TABLERO - 1) / 2)] = Constante.FICHA_BLANCA
         self.matrizTablero[int((1 + Constante.DIMENSION_TABLERO) / 2)][int((1 + Constante.DIMENSION_TABLERO) / 2)] = Constante.FICHA_NEGRA
 
 

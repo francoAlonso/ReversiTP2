@@ -1,8 +1,10 @@
+import csv
+
 #El archivo Usuarios.csv tiene 6 datos, los cuales se encuentran en este orden: Nombre,Puntaje,PJ,PG,PP,PE
 #Esta funcion lee el archivo y si encuentra al final, devuelte una clave que indica el EoF
-def leer (archivo, default):
-    linea = archivo.readline()
-    if linea:
+def leer(archivo, default):
+	linea = archivo.readline()
+	if linea:
 		return linea.split(',')
 	else:
 		return default.split(',')
@@ -13,12 +15,8 @@ def grabarUsuario(file,nombre,puntaje,PJ,PG,PP,PE,espacio):
 	file.write(nombre+','+puntaje+','+PJ+','+PG+','+PP+','+PE+espacio)
 
 def contarLineas(file):
-	import csv
-	with open(file,'r') as f:
-		reader=csv.reader(file,delimeter=',')
-		data=list(reader)
-		row_count=len(data)
-	return row_count
+    reader = csv.reader(file, ',')
+    return len(list(reader))
 
 #Ingresa el nombre de usuario
 def ingresarNombre():
@@ -33,10 +31,10 @@ def verificarNombreValido():
 #Es usado cuando aparece un nuevo jugador, si este ya existe no hace nada, si no, crea el nuevo jugador con los datos default(0)
 #Como solo usamos el nombre, ponemos variables random para que pueda leer el archivo correctamente
 def verificarUsuarioInicial(file,nombre):
-	nombre_usuario,a,b,c,d,e,f=leer(file,'END,0,0,0,0,0,0')
-	last_pos=file.tell() #Nos va a decir donde se encuentra la linea en el archivo
-	nombre_usuario,a,b,c,d,e,f=leer(file,'END,0,0,0,0,0,0') #Dos veces para que se saltee las keys
-	usuariosLength=contarLineas(file)
+	nombre_usuario,a,b,c,d,e,f = leer(file,'END,0,0,0,0,0,0')
+	last_pos = file.tell() #Nos va a decir donde se encuentra la linea en el archivo
+	nombre_usuario,a,b,c,d,e,f = leer(file,'END,0,0,0,0,0,0') #Dos veces para que se saltee las keys
+	usuariosLength = contarLineas(file)
 	cont=0
 	while nombre_usuario!='END':
 		if (nombre_usuario!=nombre): #Ponemos un contador en el cual vemos si existe algun jugador con el nombre ingresado

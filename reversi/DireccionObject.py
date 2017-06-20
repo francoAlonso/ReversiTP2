@@ -4,7 +4,8 @@ class VectorDireccion(object):
 
     #constructor. Defino las direciones donde se va a poder comer.
     def __init__(self):
-        self.vectorDireccion = [{'direccionX': 0, 'direccionY':0, 'direccionValida':False, 'fichasADarVuelta':0} for e in range(Constante.CANTIDAD_DIRECCIONES)]
+        self.vectorDireccion = [{'direccionX': 0, 'direccionY':0, 'direccionValida':False, 'fichasADarVuelta':0} for e in range(
+            Constante.CANTIDAD_DIRECCIONES)]
 
         self.vectorDireccion[0]['direccionX'] = 0  # derecha
         self.vectorDireccion[0]['direccionY'] = 1

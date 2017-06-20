@@ -1,16 +1,16 @@
 import Constante
-from TableroObject import Tablero
 from BotObject import Bot
+from TableroObject import Tablero
 
 #inicializacion
 tablero = Tablero()
 bot = Bot()
 
-fichaJugador, fichaBot = tablero.elegirColorFicha()
-
 juegoTerminado = False
 
 def jugar_reversi():
+    fichaJugador, fichaBot = tablero.elegirColorFicha()
+
     #las negras juegan pimero
     if fichaJugador == Constante.FICHA_BLANCA:
         bot.juega(tablero, fichaBot, fichaJugador)

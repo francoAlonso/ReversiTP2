@@ -1,13 +1,14 @@
 #Programa Principal, desde aqui haremos el menu
 import os
-os.chdir()#Aca se pone desde donde se van a leer los archivos, para que no sea tanto lio
-#Vamos a usar el leer y el grabar de menuJugar, cuando compilemos todo borramos los leer y grabar repetidos
+from reversi import Reversi
 import MenuJugar
 import SortFile
 import menuUsuarios
-import Reversi
+
+
 menu1=['1-Jugar','2-Ver Top 10','3-Cargar,generar o actualizar archivo Usuarios','0-Salir']
 menu2=['1-Reset archivo Usuarios','2-Cargar nuevo arhivo Usuarios','3-Actualizar archivo Usuarios','4-Generar Usuarios aleatorio','5-Visualizar archivo Usuarios actual','0-Volver al Menu Principal']
+fileUsuarios = open('Usuarios.csv', 'r')
 i=1
 while i!=0:
     for k in menu1:
@@ -15,15 +16,16 @@ while i!=0:
     j=1
     i=input('Por favor ingresar la accion a realizar acorde al numero correspondiente\n')
     if i==1:
-        varParaNombre=MenuJugar.ingresarNombre()#Habria que hacer que verifique e ingrese en uno solo
-        MenuJugar.verificarUsuarioInicial('Usuarios.csv',varParaNombre)
+        # Habria que hacer que verifique e ingrese en uno solo
+        nombre = MenuJugar.ingresarNombre()
+        MenuJugar.verificarUsuarioInicial(fileUsuarios, nombre)
         #ACA VA EL JUEGO
         puntaje = Reversi.jugar_reversi()
-        MenuJugar.actualizarUsuarios('Usuarios.csv', varParaNombre, puntaje)
+        MenuJugar.actualizarUsuarios(fileUsuarios, nombre, puntaje)
     elif i==2: #Ordenamiento top 10
-        listaParaOrdenar=SortFile.crearLista('Usuarios.csv')
-        listaUsuarios=SortFile.ordenarLista(listaParaOrdenar)
-        SortFile.imprimirLista('Usuarios.csv',listaUsuarios)
+        listaParaOrdenar = SortFile.crearLista('Usuarios.csv')
+        listaUsuarios = SortFile.ordenarLista(listaParaOrdenar)
+        SortFile.imprimirLista(listaUsuarios)
         while j!=0:
             j=input('Presione 0 para volver al menu principal\n')
     elif i==3:
