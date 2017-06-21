@@ -36,22 +36,22 @@ def verificarNombreValido():
 #Es usado cuando aparece un nuevo jugador, si este ya existe no hace nada, si no, crea el nuevo jugador con los datos default(0)
 #Como solo usamos el nombre, ponemos variables random para que pueda leer el archivo correctamente
 def verificarUsuarioInicial(file,nombre):
-    with open(file, 'r+') as fileUsuario:
-        nombre_usuario,a,b,c,d,e = leer(fileUsuario,'END,0,0,0,0,0,0')
-        last_pos = fileUsuario.tell() #Nos va a decir donde se encuentra la linea en el archivo
-        nombre_usuario,a,b,c,d,e = leer(fileUsuario,'END,0,0,0,0,0,0') #Dos veces para que se saltee las keys
-        usuariosLength = contarLineas(fileUsuario)
-        cont=0
-        while nombre_usuario != 'END':
-            if (nombre_usuario!=nombre): #Ponemos un contador en el cual vemos si existe algun jugador con el nombre ingresado
-                cont=cont+1
-                last_pos=file.tell()
-                nombre_usuario,a,b,c,d,e,f = leer(fileUsuario,'END,0,0,0,0,0,0')
-            else:
-                nombre_usuario='END'
-                file.seek(last_pos)  #Para que salga del ciclo y deje el puntero en donde empieza la linea
-        if cont == usuariosLength:
-            grabarUsuario(fileUsuario,nombre,'0','0','0','0','0','\n')
+    f=open(file,'r+')
+    nombre_usuario,a,b,c,d,e = leer(f,'END,0,0,0,0,0')
+    last_pos = f.tell() #Nos va a decir donde se encuentra la linea en el archivo
+    nombre_usuario,a,b,c,d,e = leer(f,'END,0,0,0,0,0') #Dos veces para que se saltee las keys
+    usuariosLength = contarLineas(f)
+    cont=0
+    while nombre_usuario != 'END':
+        if (nombre_usuario!=nombre): #Ponemos un contador en el cual vemos si existe algun jugador con el nombre ingresado
+            cont=cont+1
+            last_pos=f.tell()
+            nombre_usuario,a,b,c,d,e,f = leer(f,'END,0,0,0,0,0')
+        else:
+            nombre_usuario='END'
+            f.seek(last_pos)  #Para que salga del ciclo y deje el puntero en donde empieza la linea
+    if cont == usuariosLength:
+        grabarUsuario(f,nombre,'0','0','0','0','0','\n')
 
 #Actualiza datos en el Usuarios.csv luego de que termina una partida
 def actualizarUsuarios(file, nombre, nuevoPuntaje):
