@@ -3,7 +3,7 @@ import random
 import csv
 
 def grabarUsuario(archivo,nombre,puntaje,PJ,PG,PP,PE,espacio):
-	archivo.write(nombre+','+puntaje+','+PJ+','+PG+','+PP+','+PE+espacio)
+	archivo.write(nombre + ',' + str(puntaje) + ',' + str(PJ) + ',' + str(PG) + ',' + str(PP) + ',' + str(PE) + espacio)
 	
 def leer (file,default):
 	with open(file, 'r') as fileUsuario:
@@ -16,34 +16,39 @@ def leer (file,default):
 
 #Resetea el archivo borrando todos los usuarios
 def resetearArchUsuarios(file):#Se le pasa Usuarios.csv, Crea nuevamente el archivo usuarios con las keys correspondientes
-	archivo = open (file,'w')
-	archivo.write('Nombre,Puntaje,PartGanados,PartPerdidos,PartEmpatados,PartJugados')
-	
-def cargarArchUsuarios(file):#Se le pasa Usuarios.csv, Crea nuevamente el archivo usuarios con las keys y deja agregar datos de jugadores
+	archivo = open(file,'w')
+	archivo.write('Nombre,Puntaje,PartGanados,PartPerdidos,PartEmpatados,PartJugados\n')
+
+
+# Se le pasa Usuarios.csv, Crea nuevamente el archivo usuarios con las keys y deja agregar datos de jugadores
+def cargarArchUsuarios(file):
 	with open(file, 'w') as archivo:
 		archivo.write('Nombre,Puntaje,PartGanados,PartPerdidos,PartEmpatados,PartJugados\n')
-		i="Y"
+		respuesta = "Y"
 		j=1
-		while i!='N':
-			print 'Por favor ingresar los datos para el usuario numero ',j
+
+		while respuesta != 'N':
+			print 'Por favor ingresar los datos para el usuario numero ', j
+
 			Nombre = raw_input('Por favor ingresar nombre del jugador')
 			Puntaje = raw_input('Por favor ingresar puntaje del jugador')
 			PartGanados = raw_input('Por favor ingresar la cantidad de partidos ganados del jugador')
 			PartPerdidos = raw_input('Por favor ingresar la cantidad de partidos perdidos del jugador')
 			PartEmpatados = raw_input('Por favor ingresar la cantidad de partidos empatados del jugador')
-			PartJugados = int(PartGanados)+int(PartPerdidos)+int(PartEmpatados)
-			file.write(Nombre, ',', Puntaje, ',', PartGanados, ',', PartPerdidos, ',', PartEmpatados, ',', PartJugados, '\n')
+			PartJugados = str(int(PartGanados)+int(PartPerdidos)+int(PartEmpatados))
+
+			archivo.write(Nombre + ',' + Puntaje + ',' + PartGanados + ',' + PartPerdidos + ',' + PartEmpatados + ',' + PartJugados + '\n')
+
 			j=j+1
-			i=raw_input('Desea seguir ingresando jugadores? Y/N').upper()
+
+			respuesta = raw_input('Desea seguir ingresando jugadores? Y/N').upper()
 
 def novedadesUsuarios(file):#Se le pasa novUsuarios.csv, Funciona igual que cargarArchUsuarios solo que creamos otro archivo para luego hacer apareo con usuarios original
 	cargarArchUsuarios(file) #Necesita un nombre que NO sea Usuarios.csv, novUsuarios.csv funciona
 
 # Usado para apareo luego. Cuenta cuantas lineas tiene el archivo.
 def contarLineas(file):
-	with open(file,'r') as archivo:
-		reader = csv.reader(archivo, delimeter=',')
-
+	reader = csv.reader(file, delimeter=',')
 	return len(list(reader))
 
 # Se le pasan Usuarios.csv y novUsuarios.csv en ese orden para realizar el apareo
@@ -60,8 +65,8 @@ def apareoNovedades(file1,file2):
 				PPNuevo = int(PP) + int(PP_n)
 				PENuevo = int(PE) + int(PE_n)
 				PJNuevo = int(PJ) + int(PJ_n)
-				grabarUsuario(archivo1, Nom, PuntajeNuevo, PGNuevo, PPNuevo, PENuevo, PJNuevo, ' ')
-				grabarUsuario(archivo2,'END','0','0','0','0','0',' ')
+				grabarUsuario(archivo1, Nom, PuntajeNuevo, PGNuevo, PPNuevo, PENuevo, PJNuevo, '\n')
+				grabarUsuario(archivo2,'END','0','0','0','0','0','\n')
 				leer(file2,'END,0,0,0,0,0')
 			elif Nom != Nom_n: #Para ver si un nombre no esta en toda la lista, vemos si el contador llega a la misma longitud que las lineas del archivo 1
 				cont+=cont
@@ -70,7 +75,7 @@ def apareoNovedades(file1,file2):
 				grabarUsuario(archivo1,Nom_n,Puntaje_n,PG_n,PP_n,PE_n,PJ_n,'\n')
 
 #Genera la cantidad de usuarios aleatorios que el usuario desee
-def usuarioAleatorios(file):
+def usuariosAleatorios(file):
 	with open(file, 'w') as archivo:
 		archivo.write('Nombre,Puntaje,PartGanados,PartPerdidos,PartEmpatados,PartJugados\n')
 		generados = input('¿Cuántos usuarios de forma aleatoria desea generar?')
@@ -79,7 +84,7 @@ def usuarioAleatorios(file):
 			nombre_aleatorio = ''.join(nombre_aleatorio)
 			puntaje, PJ, PG, PP, PE = random.randrange(10), random.randrange(10), random.randrange(10), random.randrange(10), random.randrange(10)
 			archivo.seek(0,2)
-			grabarUsuario(archivo, nombre_aleatorio, puntaje, PJ, PG, PP, PE, '')
+			grabarUsuario(archivo, nombre_aleatorio, puntaje, PJ, PG, PP, PE, '\n')
 
 
 #Pasa los datos de Usuarios.csv a una lista para luego ser ordenados

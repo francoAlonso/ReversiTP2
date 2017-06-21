@@ -11,7 +11,7 @@ def crearLista (file): #Pasa los datos de Usuarios.csv a una lista para luego se
 def ordenarLista (listaInicial): #Se le pasa la lista creada anteriormente
 	lista=sorted(listaInicial, key=lambda k:int(k['Puntaje']), reverse=True)#ordena por puntaje de mayor a menor
 	j=1
-	for i in range(0,(len(lista)-1)):
+	for i in range(len(lista)-1):
 		if  lista[j-1]['Puntaje']==lista[j]['Puntaje']: #Si en el registro de un jugador el puntaje es igual al del siguiente
 			if int(lista[j-1]['PartGanados'])<int(lista[j]['PartGanados']): #Si el PG del segundo es mas grande que el del primero los cambia de lugar
 				aux=lista[j-1]	

@@ -26,16 +26,16 @@ def ingresarNombre():
 #Verifica que el nombre ingresado se encuentre en 4 y 8 digitos
 def verificarNombreValido():
 	global nombre_usuario
-	while len(nombre_usuario)<4 or len(nombre_usuario)>8:
+	while len(nombre_usuario)<4 and len(nombre_usuario)>8:
 		nombre_usuario=raw_input('Ingrese un nombre entre 4 y 8 digitos: ')
 
 #Es usado cuando aparece un nuevo jugador, si este ya existe no hace nada, si no, crea el nuevo jugador con los datos default(0)
 #Como solo usamos el nombre, ponemos variables random para que pueda leer el archivo correctamente
 def verificarUsuarioInicial(file,nombre):
-    with open(file, 'r') as fileUsuario:
-        nombre_usuario,a,b,c,d,e,f = leer(fileUsuario,'END,0,0,0,0,0,0')
+    with open(file, 'r+') as fileUsuario:
+        nombre_usuario,a,b,c,d,e = leer(fileUsuario,'END,0,0,0,0,0,0')
         last_pos = fileUsuario.tell() #Nos va a decir donde se encuentra la linea en el archivo
-        nombre_usuario,a,b,c,d,e,f = leer(fileUsuario,'END,0,0,0,0,0,0') #Dos veces para que se saltee las keys
+        nombre_usuario,a,b,c,d,e = leer(fileUsuario,'END,0,0,0,0,0,0') #Dos veces para que se saltee las keys
         usuariosLength = contarLineas(fileUsuario)
         cont=0
         while nombre_usuario != 'END':
