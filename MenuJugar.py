@@ -15,8 +15,12 @@ def grabarUsuario(file,nombre,puntaje,PJ,PG,PP,PE,espacio):
 	file.write(nombre+','+puntaje+','+PJ+','+PG+','+PP+','+PE+espacio)
 
 def contarLineas(file):
-    reader = csv.reader(file, ',')
-    return len(list(reader))
+    with open('Usuarios.csv','r') as f:
+        reader=csv.reader(f,delimiter=',')
+        data=list(reader)
+        f.seek(0)
+        cantLineas=len(data)
+    return cantLineas
 
 #Ingresa el nombre de usuario
 def ingresarNombre():
